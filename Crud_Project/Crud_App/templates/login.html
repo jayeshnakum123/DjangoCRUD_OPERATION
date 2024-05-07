@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-10 offset-sm-1"> <!-- Adjust offset value to center the form -->
+        <h4 class="text-center alert alert-info">Login</h4>
+        {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+        {% endif %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group"> <!-- Center align the form content -->
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" id="username"><br>
+            </div>
+            <div class="form-group"> <!-- Center align the form content -->
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password"><br>
+            </div>
+            <div class="text-center"> <!-- Center align the submit button -->
+                <input type="submit" class="btn btn-primary" value="Login">
+            </div>
+            <a href="{% url 'add_student' %}" class="btn btn-success">Register</a>
+        </form>
+    </div>
+</div>
+<a href="{% url 'add_student' %}" class="btn btn-dark btn-sm">Back to Home Page</a>
+{% endblock content %}

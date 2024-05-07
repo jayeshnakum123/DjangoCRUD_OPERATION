@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserRegisterAndLoginApp</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        <h4>UserRegisterAndLoginApp !!</h4>
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <p class="error">{{error}}</p>
+        {% endfor %}
+        {% endif %}
+        {% for fm in form %}
+        {{fm.label_tag}}
+        {{fm}}
+        {{fm.errors|striptags}} <br><br>
+        {% endfor %}
+        <!-- {{form.as_p}} -->
+        <input type="submit" value="Register">
+    </form>
+    {% if messages %}
+    {% for message in messages %}
+    <small {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
+    {% endfor %}
+    {% endif %}
+    <a href="{% url 'user_login' %}">Login</a>
+</body>
+
+</html>

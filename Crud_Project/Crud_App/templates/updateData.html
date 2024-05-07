@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- <h4>Update Data {{id}}</h4> -->
+<div class="row">
+    <div class="col-sm-8 offset-2">
+        <h4 class="alert alert-info">
+            Update Student Infromation
+        </h4>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="text-center">
+                {% if form.instance.image %}
+                <img src="{{ form.instance.image.url }}" alt="Student Image" class="rounded"
+                    style="width: 100px; height: 100px;">
+                {% endif %}
+            </div>
+            {{ form.as_p }}
+            <input type="submit" value="Update" class="btn btn-success">
+            <a href="{% url 'add_student' %}" class="btn btn-dark btn-sm">BACK TO HOME PAGE</a>
+        </form>
+    </div>
+</div>
+{% endblock content %}

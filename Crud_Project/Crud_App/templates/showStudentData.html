@@ -1,0 +1,74 @@
+<!-- showStudentData.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-sm-12">
+    <h4 class="text-center alert alert-info">Show Student Data</h4>
+    {% if data %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Image</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through paginated data -->
+            {% for student in data %}
+            <tr>
+                <th scope="row">{{ student.id }}</th>
+                <td>{{ student.username }}</td>
+                <td>{{ student.email }}</td>
+                <td>
+                    {% if student.image %}
+                    <img src="{{ student.image.url }}" alt="{{ student.username }}'s Image"
+                        style="width: 50px; height: 50px;" class="rounded-circle">
+                    {% else %}
+                    No image available
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- Action buttons -->
+                    <form action="{% url 'update_data' student.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" value="Edit" class="btn btn-warning btn-sm">
+                    </form>
+                    <form action="{% url 'deletedata' student.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination links -->
+    <div class="pagination row justify-content-center">
+        <div class="col-auto">
+            <span class=" step-links">
+                {% if data.has_previous %}
+                <a href="?page=1" class="btn btn-info">&laquo; First</a>
+                <a href="?page={{ data.previous_page_number }}" class="btn btn-info">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                </span>
+
+                {% if data.has_next %}
+                <a href="?page={{ data.next_page_number }}" class="btn btn-info">Next</a>
+                <a href="?page={{ data.paginator.num_pages }}" class="btn btn-info">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        {% else %}
+        <h4 class="text-center alert alert-warning">No Records</h4>
+        {% endif %}
+    </div><br><br>
+    <a href="{% url 'add_student' %}" class="btn btn-dark btn-sm">Back to Home Page</a>
+    {% endblock content %}
